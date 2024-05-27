@@ -75,6 +75,10 @@ async def download_document(message: types.Message):
                     filename=filename
                 )
             )
+
+            if os.path.isfile(filename):
+                os.remove(filename)
+
         except TimeoutError:
             await message.answer("Слишком много ников, попробуй сократить")
 
