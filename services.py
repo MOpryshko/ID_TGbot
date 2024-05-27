@@ -36,6 +36,9 @@ async def excel_parser(file: IO[bytes]):
     sheet = wb.active
     max_rows = sheet.max_row
 
+    new_wb = openpyxl.Workbook()
+    new_sheet = new_wb.active
+
     if max_rows > 500:
         raise TimeoutError
 
@@ -44,6 +47,22 @@ async def excel_parser(file: IO[bytes]):
         if not nickname.value:
             continue
         id_ = await get_id_nickname(nickname.value)
-        nickname.value = id_
-        wb.save(file)
+        new_sheet.cell(row=i, column=1).value = id_
+        new_sheet.cell(row=i, column=2).value = sheet.cell(row=i, column=2).value
+
+    new_wb.save("test.xlsx")
+    new_wb.close()
     wb.close()
+
+
+async def txt_parser(file):
+    id_list = []
+
+    with open(file, "r") as f:
+        for line in f:
+            id_ = await get_id_nickname(line)
+            id_list.append(id_ + "\n")
+
+    with open("data_list_id.txt", "a") as f:
+        f.writelines(id_list)
+
