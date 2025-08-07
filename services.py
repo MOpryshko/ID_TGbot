@@ -5,8 +5,8 @@ from typing import IO
 
 
 async def get_id_nickname(name):
-    name = str(name)
-    name = name.strip()
+    # name = str(name)
+    name = str(name).strip()
     if len(name.split()) > 1:
         return f"Пользователь с ником {name} не найден"
     data = None
