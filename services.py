@@ -11,7 +11,6 @@ async def get_id_nickname(name):
         return f"Пользователь с ником {name} не найден"
     data = None
 
-
     try:
         response = httpx.get(f"https://api.tanki.su/wot/account/list/?application_id=6e76bdefe5b324d811d62bd6bc861e02&search={name}")
         data = response.json()
